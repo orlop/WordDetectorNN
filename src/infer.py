@@ -19,13 +19,13 @@ def main():
     net.eval()
     net.to(args.device)
 
-    loader = DataLoaderImgFile(Path('../data/test'), net.input_size, args.device)
+    loader = DataLoaderImgFile(Path('../data/kroniky'), net.input_size, args.device)
     res = evaluate(net, loader, max_aabbs=1000)
 
     for i, (img, aabbs) in enumerate(zip(res.batch_imgs, res.batch_aabbs)):
         f = loader.get_scale_factor(i)
         aabbs = [aabb.scale(1 / f, 1 / f) for aabb in aabbs]
-        img = loader.get_original_img(i)
+        img = loader.get_img_and_preprocess(i)
         visualize_and_plot(img, aabbs)
 
 
