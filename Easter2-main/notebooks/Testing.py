@@ -1,5 +1,5 @@
 import os
-os.chdir(os.path.join(".","src"))
+os.chdir(os.path.join("..","src"))
 from predict import test_on_iam
 
 checkpoint_path = "../weights/saved_checkpoint.hdf5"
