@@ -1,4 +1,4 @@
-import os
+import os, sys
 sys.path.append(os.path.join("..","src"))
 
 from predict import test_on_iam
