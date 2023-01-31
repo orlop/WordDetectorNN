@@ -49,10 +49,10 @@ def cluster_aabbs_into_lines(aabbs):
 
     res_aabbs = []
     for curr_cluster in clusters.values():
-        xmin = np.minimum([aabb.xmin for aabb in curr_cluster])
-        xmax = np.maximum([aabb.xmax for aabb in curr_cluster])
-        ymin = np.minimum([aabb.ymin for aabb in curr_cluster])
-        ymax = np.maximum([aabb.ymax for aabb in curr_cluster])
+        xmin = np.min([aabb.xmin for aabb in curr_cluster])
+        xmax = np.max([aabb.xmax for aabb in curr_cluster])
+        ymin = np.min([aabb.ymin for aabb in curr_cluster])
+        ymax = np.max([aabb.ymax for aabb in curr_cluster])
         res_aabbs.append(AABB(xmin, xmax, ymin, ymax))
 
     return res_aabbs
