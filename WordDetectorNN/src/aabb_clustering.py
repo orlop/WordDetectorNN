@@ -29,4 +29,30 @@ def cluster_aabbs(aabbs):
         ymax = np.median([aabb.ymax for aabb in curr_cluster])
         res_aabbs.append(AABB(xmin, xmax, ymin, ymax))
 
+    res_aabbs = cluster_aabbs_into_lines(res_aabbs)
+
+    return res_aabbs
+
+def cluster_aabbs_into_lines(aabbs):
+    """cluster aabbs using DBSCAN and the Jaccard distance between bounding boxes"""
+    if len(aabbs) < 2:
+        return aabbs
+
+    dists = np.array([[aabb[0], aabb[1]] for aabb in aabbs])
+    clustering = DBSCAN(eps=10, min_samples=2, metric='precomputed').fit(dists)
+
+    clusters = defaultdict(list)
+    for i, c in enumerate(clustering.labels_):
+        if c == -1:
+            continue
+        clusters[c].append(aabbs[i])
+
+    res_aabbs = []
+    for curr_cluster in clusters.values():
+        xmin = np.median([aabb.xmin for aabb in curr_cluster])
+        xmax = np.median([aabb.xmax for aabb in curr_cluster])
+        ymin = np.median([aabb.ymin for aabb in curr_cluster])
+        ymax = np.median([aabb.ymax for aabb in curr_cluster])
+        res_aabbs.append(AABB(xmin, xmax, ymin, ymax))
+
     return res_aabbs
