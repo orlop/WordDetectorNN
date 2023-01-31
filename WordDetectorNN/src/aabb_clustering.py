@@ -29,7 +29,7 @@ def cluster_aabbs(aabbs):
         ymax = np.median([aabb.ymax for aabb in curr_cluster])
         res_aabbs.append(AABB(xmin, xmax, ymin, ymax))
 
-    res_aabbs = cluster_aabbs_into_lines(res_aabbs)
+    res_aabbs = cluster_aabbs_into_lines(res_aabbs) # cluster lines
 
     return res_aabbs
 
