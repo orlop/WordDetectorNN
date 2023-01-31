@@ -38,8 +38,8 @@ def cluster_aabbs_into_lines(aabbs):
     if len(aabbs) < 2:
         return aabbs
 
-    dists = np.array([[aabb.ymax, aabb.ymin] for aabb in aabbs])
-    clustering = DBSCAN(eps=10, min_samples=2, metric='precomputed').fit(dists)
+    X = np.array([[aabb.ymax, aabb.ymin] for aabb in aabbs])
+    clustering = DBSCAN(eps=10, min_samples=2).fit(X)
 
     clusters = defaultdict(list)
     for i, c in enumerate(clustering.labels_):
