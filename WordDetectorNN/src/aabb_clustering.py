@@ -39,7 +39,7 @@ def cluster_aabbs_into_lines(aabbs):
         return aabbs
 
     X = np.array([[aabb.ymax, aabb.ymin] for aabb in aabbs])
-    clustering = DBSCAN(eps=40, min_samples=2).fit(X)
+    clustering = DBSCAN(eps=10, min_samples=2).fit(X)
 
     clusters = defaultdict(list)
     for i, c in enumerate(clustering.labels_):
@@ -49,10 +49,10 @@ def cluster_aabbs_into_lines(aabbs):
 
     res_aabbs = []
     for curr_cluster in clusters.values():
-        xmin = np.median([aabb.xmin for aabb in curr_cluster])
-        xmax = np.median([aabb.xmax for aabb in curr_cluster])
-        ymin = np.median([aabb.ymin for aabb in curr_cluster])
-        ymax = np.median([aabb.ymax for aabb in curr_cluster])
+        xmin = np.minimum([aabb.xmin for aabb in curr_cluster])
+        xmax = np.maximum([aabb.xmax for aabb in curr_cluster])
+        ymin = np.minimum([aabb.ymin for aabb in curr_cluster])
+        ymax = np.maximum([aabb.ymax for aabb in curr_cluster])
         res_aabbs.append(AABB(xmin, xmax, ymin, ymax))
 
     return res_aabbs
